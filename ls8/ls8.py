@@ -5,6 +5,8 @@
 import sys
 from cpu import *
 
+# file = open("examples/mult.ls8", "rb")
+
 cpu = CPU()
 
 cpu.load()
