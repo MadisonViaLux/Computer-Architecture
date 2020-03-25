@@ -15,6 +15,12 @@ import sys
 # 00000000
 # 00000001 # HLT
 
+# file = open("examples/mult.ls8", "r")
+#
+# for line in file:
+#     new_line = int(line[:8], 2)
+#     print(new_line)
+
 class CPU:
     """Main CPU class."""
 
@@ -23,12 +29,10 @@ class CPU:
         self.ram = [0] * 256
         self.pc = 0
 
-    def load(self, file):
+    def load(self):
         """Load a program into memory."""
 
         address = 0
-
-
 
         # For now, we've just hardcoded a program:
 
@@ -42,19 +46,13 @@ class CPU:
         #     0b00000001, # HLT
         # ]
 
-        # file = open("examples/mult.ls8", "rb")
+        file = open("examples/mult.ls8", "rb")
 
-        with open("examples/mult.ls8", "rb") as txtfile:
-            mytextstring = txtfile.read()
-
-        binarray = ' '.join(format(ch, 'b') for ch in bytearray(mytextstring))
-
-        print(binarray)
-
-        # for instruction in file:
-        #     print(instruction)
-        #     self.ram[address] = instruction
-        #     address += 1
+        for instruction in file:
+            new_line = int(instruction[:8], 2)
+            print("new_line:", new_line, "\n")
+            self.ram[address] = new_line
+            address += 1
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
@@ -93,6 +91,9 @@ class CPU:
     def ram_write(self, address, value):
         self.ram[address] = value
 
+    def MUL(self, valA, valB):
+        self.ram[valA] = self.ram[valA] * self.ram[valB]
+
 
     def run(self):
         """Run the CPU."""
@@ -111,6 +112,14 @@ class CPU:
             elif self.ram[self.pc] == 0b00000001: #HLT = halt the CPU
                 self.pc = 0
                 running = False
+
+            elif self.ram[self.pc] == 0b10100010:
+                self.MUL(self.ram_read(self.pc + 1), self.ram_read(self.pc + 2))
+                self.pc += 3
+
+            else:
+                print(f"Unknown instruction at pc point: {self.pc}")
+                sys.exit(1)
 
 
 

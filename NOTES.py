@@ -1,5 +1,40 @@
 import sys
 
+
+
+
+# 10000010 # LDI R0,8
+# 00000000
+# 00001000
+# 10000010 # LDI R1,9
+# 00000001
+# 00001001
+# 10100010 # MUL R0,R1
+# 00000000
+# 00000001
+# 01000111 # PRN R0
+# 00000000
+# 00000001 # HLT
+
+# file = open("examples/mult.ls8", "rb")
+#
+# for line in file:
+#     print(line)
+
+
+
+
+# file = open("examples/mult.ls8", "rb")
+
+# with open("examples/mult.ls8", "r") as txtfile:
+#     mytextstring = txtfile.read()
+#
+# binarray = ' '.join(format(ch, 'b') for ch in bytearray(mytextstring))
+#
+# print(binarray)
+
+
+
 PRINT_BEEJ     = 1
 HALT           = 2
 PRINT_NUM      = 3
