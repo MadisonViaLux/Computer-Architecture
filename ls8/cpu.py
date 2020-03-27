@@ -30,7 +30,6 @@ class CPU:
         """Construct a new CPU."""
         self.ram = [0] * 256
         self.pc = 0
-        self.reg = [0] * 8
         self.flag = 0b00000000
         # self.E = 0
         # self.L = 0
@@ -111,9 +110,9 @@ class CPU:
     #     print("E__L__G: ***", self.E, self.L, self.G)
 
     def CMP(self, regA, regB):
-        if self.reg[regA] == self.reg[regB]:
+        if self.ram[regA] == self.ram[regB]:
             self.flag = 0b00000001
-        elif self.reg[regA] > self.reg[regB]:
+        elif self.ram[regA] > self.ram[regB]:
             self.flag = 0b00000010
         else:
             self.flag = 0b00000100
@@ -155,18 +154,18 @@ class CPU:
 
             elif self.ram[self.pc] == 0b01010101: #JEQ
                 if self.flag == 0b00000001:
-                    self.pc = self.reg[self.ram_read(self.pc + 1)]
+                    self.pc = self.ram_read(self.ram_read(self.pc + 1))
                 else:
                     self.pc += 2
 
             elif self.ram[self.pc] == 0b01010110: #JNE
                 if self.flag != 0b00000001:
-                    self.pc = self.reg[self.ram_read(self.pc + 1)]
+                    self.pc = self.ram_read(self.ram_read(self.pc + 1))
                 else:
                     self.pc += 2
 
             elif self.ram[self.pc] == 0b01010100: #JMP
-                self.pc = self.reg[self.ram_read(self.pc + 1)]
+                self.pc = self.ram_read(self.ram_read(self.pc + 1))
 
             elif self.ram[self.pc] == 0b00000001: #HLT = halt the CPU
                 self.pc = 0
